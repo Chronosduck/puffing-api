@@ -13,7 +13,8 @@ from typing import Optional, List, Dict, Any
 class CodeRequest(BaseModel):
     """Request model for code execution"""
     code: str = Field(..., description="Puffing Language source code to execute")
-    timeout: Optional[int] = Field(5, description="Execution timeout in seconds", ge=1, le=30)
+    timeout: Optional[int] = Field(20, description="Execution timeout in seconds", ge=1, le=30)
+    input_values: Optional[List[str]] = Field(default=[], description="Pre-provided input values for input() calls")
     
     model_config = {
         "json_schema_extra": {
@@ -65,3 +66,4 @@ class HealthResponse(BaseModel):
     status: str
     version: str
     language: str
+
