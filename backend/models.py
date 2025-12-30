@@ -20,7 +20,7 @@ class CodeRequest(BaseModel):
         "json_schema_extra": {
             "examples": [{
                 "code": 'print("Hello, Puffing!");',
-                "timeout": 5
+                "timeout": 20
             }]
         }
     }
@@ -66,4 +66,5 @@ class HealthResponse(BaseModel):
     status: str
     version: str
     language: str
+
 
