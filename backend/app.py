@@ -102,8 +102,12 @@ async def execute_code(request: CodeRequest):
                 detail="Code cannot be empty"
             )
         
-        # Execute code
-        result = executor.execute(request.code, request.timeout)
+# Execute code
+        result = executor.execute(
+            request.code, 
+            request.timeout,
+            request.input_values or []
+        )
         
         logger.info(f"Execution completed: success={result['success']}, "
                    f"time={result['execution_time']}s")
@@ -178,5 +182,6 @@ if __name__ == "__main__":
         reload=True,
         log_level="info"
     )
+
 
 
