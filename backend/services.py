@@ -84,7 +84,7 @@ class PuffingExecutor:
             return False, f"Unexpected error: {str(e)}", None
     
     @staticmethod
-    def execute(code: str, timeout: int = 5) -> dict:
+    def execute(code: str, timeout: int = 20, input_values: list = None) -> dict:
         """
         Execute Puffing Language code and capture output
         
@@ -95,11 +95,19 @@ class PuffingExecutor:
         Returns:
             Dictionary with execution results
         """
+        if input_values is None:
+                input_values = []
+        
         start_time = time.time()
         
-        # Capture stdout
+        # Capture stdout and stdin
         old_stdout = sys.stdout
+        old_stdin = sys.stdin
         sys.stdout = captured_output = StringIO()
+        
+        # Mock stdin with pre-provided inputs
+        if input_values:
+            sys.stdin = StringIO('\n'.join(input_values) + '\n')
         
         try:
             with time_limit(timeout):
@@ -162,7 +170,8 @@ class PuffingExecutor:
             }
             
         finally:
-            # Restore stdout
+            # Restore stdout and stdin
             sys.stdout = old_stdout
+            sys.stdin = old_stdin
 
 
